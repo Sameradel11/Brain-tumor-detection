@@ -9,6 +9,7 @@ from django.conf import settings
 import os
 from rest_framework.response import Response
 import joblib
+import pickle 
 # Create your views here.
 class Brain(APIView):
     def preprocess_image(self,image_path, target_size=(224, 224)):
@@ -97,3 +98,26 @@ class Covid(APIView):
 
         predicted_class = self.predict_image_class(temp_image_path, model)
         return Response({"message":f"{predicted_class}"})
+
+class Obesity(APIView):
+    def post(self,request):
+        l=request.data['data']
+        message=self.print_result(self.get_result(self.get_class(l)))
+        return Response({"message":f"{message}"})
+
+    def get_class(self,l):
+        folder_path = os.path.join(settings.BASE_DIR, 'api\models\Obesity')
+        file_name = 'obesity_rand_for.sav'
+        model_path=os.path.join(folder_path, file_name)
+        loaded_model=pickle.load(open(model_path, 'rb'))
+        l=np.array(l)
+        l=l.reshape(1, -1)
+        p=loaded_model.predict(l)
+        return p[0]
+    def get_result(self,p):
+        target=['Insufficient_Weight','Normal_Weight', 'Obesity_Type_I','Obesity_Type_II', 'Obesity_Type_III','Overweight_Level_I','Overweight_Level_II', ]
+        x=target[p]
+        return x
+    def print_result(self,x):
+        re="you are {}".format(x)
+        return re

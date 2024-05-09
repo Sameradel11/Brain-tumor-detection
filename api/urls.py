@@ -7,4 +7,5 @@ urlpatterns = [
     path('brain',views.Brain.as_view(),name='brain'),
     path('breast_cancer',views.BreastCancer.as_view()),
     path('covid',views.Covid.as_view()),
+    path('obese',views.Obesity.as_view())
 ]

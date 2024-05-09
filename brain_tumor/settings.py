@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-h#bkfnrhvr7_9bo5)4l%f_g)0%jxspm&1fr+^^ky76jk3_pcyc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 WSGI_APPLICATION = 'drf.wsgi.app'
 # Application definition
 
